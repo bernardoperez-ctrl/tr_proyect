@@ -54,30 +54,11 @@ def obtener_token_jwt():
         )
         print(token_jwt_generado)
         print(f"\n1. JWT Generado exitosamente (Firma RSA creada).")
+        return token_jwt_generado
     except Exception as e:
         print(f"Error generando JWT: {e}")
         return
 
-    # Ahora intercambiamos ese JWT por el Access Token real
-    print("2. Contactando a DocuSign para obtener Access Token...")
-
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
-    data = {
-        'grant_type': 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        'assertion': token_jwt_generado
-    }
-
-    response = requests.post(base_url, headers=headers, data=data)
-
-    if response.status_code == 200:
-        access_token = response.json().get("access_token")
-        print("\n¡ÉXITO! ------------------------------------------------")
-        print(f"Access Token recibido: {access_token}")
-        print("Este token ya sirve para llamar a la API igual que en Postman.")
-        return access_token
-    else:
-        print(f"\nError al obtener token: {response.status_code}")
-        print(response.text)
 
 @app.get("/token")
 def obtener_token():
