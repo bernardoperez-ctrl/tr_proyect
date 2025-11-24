@@ -1,6 +1,9 @@
+from fastapi import FastAPI
 import jwt
 import time
 import requests
+
+app = FastAPI()
 
 # --- CONFIGURACIÓN (LLENA ESTOS DATOS) ---
 
@@ -76,5 +79,6 @@ def obtener_token_jwt():
         print(f"\nError al obtener token: {response.status_code}")
         print(response.text)
 
-if __name__ == "__main__":
-    obtener_token_jwt()
+@app.get("/token")
+def obtener_token():
+    return obtener_token_jwt()
